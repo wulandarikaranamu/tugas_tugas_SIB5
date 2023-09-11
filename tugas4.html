@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tugas Dom</title>
+</head>
+<body>
+    <!-- Buatlah Form toko online untuk pelanggan yang ingin membeli produk dengan element form :
+    1. inputkan nama pelanggan (name=nama)
+    2. Select option produk, gunakan struktur kendali switch case untuk menentukan harga produk:
+    Tv 2jt, AC 3 jt, kulkas 4jt (name=produk)gunakan looping for u/ data produk
+    3. inputan banyak item produk dibeli(name=jumlah)
+    4. tombol beli(name=proses)
+
+    Tampilkan populasi data berbentuk alert Javascript
+    dengan mengasosiasikan fungsi (nama fungsi transaksi) dan event handler onclick:
+    1. Nama Pelanggan
+    2. Produk yang dibeli
+    3. Harga satuan
+    4. Jumlah item produk yang dibeli
+    5. Harga Kotor = harga satuan * jumlah item produk yang dibeli
+    6. diskon dengan multiple IF dengan ketentuan :
+       - jika beli kulkas minimal 3 buah, diskon 30% dari harga kotor
+       - jika beli AC minimal 3 buah, diskon 20% dari harga kotor
+       - selain itu semua pelanggan dapat diskon 10 % dari harga kotor
+    7. Pajak pertambahan nilai (PPN) ditanggung pembeli, 10 % dari harga kotor - diskon
+    8. Harga bayar = (harga kotor - diskon) + PPN
+    -->
+    <form id="on">
+        <tr>
+            <th><h2>Toko Online</h2></th>
+        </tr>
+        <br>
+        <tr>
+            <td><label for="">Nama : </label></td>
+            <td><input type="text" name="nama" id="nama" placeholder="Masukkan Nama Anda"></td>
+        </tr>
+        <br>
+        <br>
+        <tr>
+            <td><label for="">Pilih Produk : </label></td>
+            <select name="produk" id="produk">
+                <option value="TV">TV</option>
+                <option value="AC">AC</option>
+                <option value="KULKAS">KULKAS</option>
+            </select>
+        </tr>
+        <br>
+        <br>
+        <tr>
+            <td><label for="">Item Produk : </label></td>
+            <td><input type="number" name="jumlah" id="jumlah" placeholder="Masukkan Item Produk"></td>
+        </tr>
+        <br>
+        <br>
+        <tr>
+            <input type="button" value="Beli" id="proses" name="proses" onclick="transaksi()">
+        </tr>
+
+        <h2>Detail Transaksi : </h2>
+        <h3 id="hasil"></h3>
+    </form>
+
+    <script>
+        function transaksi(){
+
+            let produkData = [
+            { nama: "TV", harga: 2000000 },
+            { nama: "AC", harga: 3000000 },
+            { nama: "KULKAS", harga: 4000000 }
+            
+            ];
+
+            let pembeli = document.getElementById("nama").value;
+            let barang = document.getElementById("produk").value;
+            let jumlah_item = parseInt(document.getElementById("jumlah").value);
+            
+            let harga_satuan;
+
+                switch (barang){
+                case "TV":
+                    harga_satuan = 2000000;
+                    break;
+                case "AC":
+                    harga_satuan = 3000000;
+                    break;
+                case "KULKAS":
+                    harga_satuan = 4000000;
+                    break;
+                default:
+                    harga_satuan = 0;
+                }
+
+                for (let i = 0; i < produkData.length; i++) {
+                    if (produkData[i].nama === produk) {
+                        harga_barang = produkData[i].harga;
+                        break;
+                    }
+                }
+
+            let harga_kotor = harga_satuan * jumlah_item;
+            let diskon;
+            if (barang === "Kulkas" && jumlah_item >= 3) {
+                diskon = 0.3 * harga_kotor;
+              } else if (barang === "AC" && jumlah_item >= 3) {
+                diskon = 0.2 * harga_kotor;
+              } else {
+                diskon = 0.1 * harga_kotor;
+              }
+              let ppn = 0.1 * (harga_kotor - diskon);
+              let harga_bayar = (harga_kotor - diskon) + ppn;
+
+            var message = "Detail Transaksi:\n";
+
+            let hasil = `Halo : ${pembeli}, <br> Anda telah membeli : ${jumlah_item} ${barang} <br>
+            
+            dengan total harga : ${harga_kotor} <br> Anda mendapatkan diskon sebesar : ${diskon} <br>
+            
+            PPN ditanggung pembeli sebesar : ${ppn} <br> Total keseluruhan Pembayaran Anda : ${harga_bayar}`;
+
+            document.getElementById("hasil").innerHTML = hasil;
+
+            alert(message);
+        }
+    </script>
+</body>
+</html>
