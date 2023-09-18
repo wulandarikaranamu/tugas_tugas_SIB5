@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuerry Merry</title>
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+    <script src="JS/jquery-3.7.1.min.js"></script>
+    <script type="text/javascript"></script>
+</head>
+<body>
+
+    <ul>
+        <li><a href="#" id="profile">Profile</a></li>
+        <li><a href="#" id="motoHidup">Moto Hidup</a></li>
+        <li><a href="#" id="keahlian">Keahlian</a></li>
+      </ul>
+    
+      <div id="content">
+        
+      </div>
+
+  <script>
+    $(document).ready(function() {
+
+      function tampilkanKonten(judul, tabelHTML) {
+        $('#content').html(`
+          <h2>${judul}</h2>
+          <table border="1">
+            ${tabelHTML}
+          </table>
+        `);
+      }
+
+      $('#profile').click(function() {
+        const tabelHTML = `
+          <tr>
+            <td>Nama</td>
+            <td>Merry Wulandari</td>
+          </tr>
+          <tr>
+            <td>Usia</td>
+            <td>20 tahun</td>
+          </tr>
+          <tr>
+            <td>Alamat</td>
+            <td>Mamuju, Sulawesi Barat</td>
+          </tr>
+        `;
+        tampilkanKonten('Profile', tabelHTML);
+      });
+
+      $('#motoHidup').click(function() {
+        const tabelHTML = `
+          <tr>
+            <td>Moto Hidup</td>
+            <td>Hidup adalah tentang belajar dan berkembang.</td>
+          </tr>
+          <tr>
+            <td>Alasan</td>
+            <td>Karena dengan belajar, kita bisa menjadi lebih baik setiap hari.</td>
+          </tr>
+        `;
+        tampilkanKonten('Moto Hidup', tabelHTML);
+      });
+
+      $('#keahlian').click(function() {
+        const tabelHTML = `
+          <tr>
+            <td>Keahlian</td>
+            <td>Pemrograman, desain web, manajemen proyek.</td>
+          </tr>
+          <tr>
+            <td>Pengalaman</td>
+            <td>Sudah memiliki website yang dibuat secara bertim dan individu.</td>
+          </tr>
+        `;
+        tampilkanKonten('Keahlian', tabelHTML);
+      });
+    });
+  </script>
+   
+</body>
+</html>
