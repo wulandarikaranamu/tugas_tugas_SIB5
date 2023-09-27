@@ -15,7 +15,7 @@
         </tr>
     </thead>
     <tbody>
-        <form action="admin.php" method="POST">
+        <form action="form_login.php" method="POST">
             <tr>
                 <td>Username :</td>
                 <td>
@@ -47,7 +47,7 @@
             header("Location: admin.php");
             exit();
         }else{
-            echo "Username dan Password Anda Tidak Valid";
+            echo "Username dan Password yang Anda Masukkan Salah";
         }
     }
 
@@ -55,7 +55,13 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
 
+        
+    if ($username === "admin" && $password === "mimin") {
         cekLogin($username, $password);
+    }else{
+        echo "Username dan Password yang Anda Masukkan Salah";
+    }
+
     }else {
         echo "Silakan masukkan nama pengguna dan kata sandi.";
     }
