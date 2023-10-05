@@ -1,0 +1,100 @@
+Capture-lah perintah2 SQL dan beri komentar pada perintah queri berikut ini:
+
+Penyelesaian : 
+
+- masuk ke ruang DB melalui CMD
+# mysql -u root -p
+
+- tampilkan database yang sudah dibuat (sebelum ada database dbpegawai)
+
+MariaDB [(none)]> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| goedang_antique    |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| tokosib5           |
++--------------------+
+
+//Membuat Database dbpegawai DI phpMyadmin
+- buat database baru : dbpegawai
+CREATE DATABASE dbpegawai;
+
+- masuk ke ruang database dbpegawai
+use dbpegawai;
+
+//membuat table pegawai
+- buat tabel pegawai field-field:
+
+  1. id int primary key
+
+  2. nip char dengan constraint: wajib diisi, tidak boleh sama & 5 karakter
+
+  3. nama varchar dengan constraint: wajib diisi dan maksimal 30 karakter
+
+  4. gender enum('L','P') dengan constraint: wajib diisi
+
+  5. umur int dengan constraint: wajib diisi
+
+  6. berat_badan float
+
+CREATE TABLE pegawai(
+    id int PRIMARY KEY AUTO_INCREMENT,
+    nip char (5) NOT NULL UNIQUE,
+    nama varchar (30) NOT NULL,
+    gender enum ('L','P') NOT NULL,
+    umur int NOT NULL,
+    berat_badan float
+);
+
+- tampilkan tabel2 yang sudah ada di dbpegawai
+
+ SHOW TABLES FROM dbpegawai;
++---------------------+
+| Tables_in_dbpegawai |
++---------------------+
+| pegawai             |
++---------------------+
+
+- tampilkan database yang sudah dibuat
+ SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| dbpegawai          |
+| goedang_antique    |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| tokosib5           |
++--------------------+
+
+- lihat deskripsi tabel pegawai yang sudah dibuat
+MariaDB [(none)]> use dbpegawai;
+Database changed
+MariaDB [dbpegawai]> DESC pegawai;
++-------------+---------------+------+-----+---------+----------------+
+| Field       | Type          | Null | Key | Default | Extra
+ |
++-------------+---------------+------+-----+---------+----------------+
+| id          | int(11)       | NO   | PRI | NULL    | auto_increment |
+| nip         | char(5)       | NO   | UNI | NULL    |
+ |
+| nama        | varchar(30)   | NO   |     | NULL    |
+ |
+| gender      | enum('L','P') | NO   |     | NULL    |
+ |
+| umur        | int(11)       | NO   |     | NULL    |
+ |
+| berat_badan | float         | YES  |     | NULL    |
+ |
++-------------+---------------+------+-----+---------+----------------+
+6 rows in set (0.062 sec)
