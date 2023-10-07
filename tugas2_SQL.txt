@@ -1,0 +1,147 @@
+Buatlah table sebagai berikut 
+
+1. table pembelian yang references ke produk dengan rincian kolom sebagai berikut:
+
+- tanggal
+
+- nomor 
+
+- produk_id
+
+- jumlah
+
+- harga 
+
+- vendor_id
+
+2. table vendor yang references ke table pembelian, dengan rincian kolom sebagai berikut:
+
+- nomor
+
+- nama
+
+- kota
+
+- kontak
+
+isi 2 tabel berikut minimal 5 data
+
+PENHYELESAIAN :
+
+//membuat tabel pembelian
+CREATE TABLE pembelian(
+    nomor int PRIMARY KEY AUTO_INCREMENT,
+    tanggal date,  
+    produk_id int NOT NULL REFERENCES produk(id),
+    jumlah int NOT NULL,
+    harga double NOT NULL UNIQUE,
+    vendor_id int NOT NULL REFERENCES vendor(nomor)
+   
+);
+
+//membuat tabel vendor
+CREATE TABLE vendor(
+	nomor int PRIMARY KEY AUTO_INCREMENT,
+    nama varchar(30) NOT NULL UNIQUE,
+    kota varchar(50) NOT NULL,
+    kontak varchar (15) NOT NULL
+);
+
+//menambahkan data pembelian
+INSERT INTO pembelian (nomor, tanggal, produk_id, jumlah, harga, vendor_id) 
+VALUES ('', '2023-10-07',5,10,600000,1),
+('', '2023-10-08',6,11,700000,2),
+('', '2023-10-09',7,12,800000,3),
+('', '2023-10-10',8,13,900000,4),
+('', '2023-10-11',9,14,1000000,5);
+
+//menambahkan data vendor
+INSERT INTO vendor (nomor, nama, kota, kontak) 
+VALUES ('', 'Merry Wulandari. S', 'mamuju', '+6285240591592'),
+('', 'Ahmad Afrisal', 'Polewali', '+6285241591593'),
+('', 'Andi Alviansyah. S', 'Majene', '+6285242591594'),
+('', 'Izzar Rayyan. R', 'Monokwari', '+6285243591595'),
+('', 'Putri Mayang Sari. S', 'mamuju', '+6285244591596');
+
+//update data
+UPDATE `pembelian` SET `tanggal` = '2023-10-07' WHERE `pembelian`.`nomor` = 1;
+
+//Hasil di CMD
+# mysql -u root -p
+
+MariaDB [(none)]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| dbpegawai          |
+| goedang_antique    |
+| information_schema |
+| mysql              |
+| pegawaisib5        |
+| performance_schema |
+| phpmyadmin         |
+| test               |
+| tokosib5           |
++--------------------+
+
+MariaDB [(none)]> use tokosib5
+Database changed
+
+show tables from tokosib5;
++--------------------+
+| Tables_in_tokosib5 |
++--------------------+
+| jenis_produk       |
+| pembelian          |
+| produk             |
+| vendor             |
++--------------------+
+
+//deskripsi tabel pembelian 
+ desc pembelian;
++-----------+---------+------+-----+---------+----------------+
+| Field     | Type    | Null | Key | Default | Extra          |
++-----------+---------+------+-----+---------+----------------+
+| nomor     | int(11) | NO   | PRI | NULL    | auto_increment |
+| tanggal   | date    | YES  |     | NULL    |                |
+| produk_id | int(11) | NO   |     | NULL    |                |
+| jumlah    | int(11) | NO   |     | NULL    |                |
+| harga     | double  | NO   | UNI | NULL    |                |
+| vendor_id | int(11) | NO   |     | NULL    |                |
++-----------+---------+------+-----+---------+----------------+
+
+//deskripsi tabel vendor
+MariaDB [tokosib5]> desc vendor;
++--------+-------------+------+-----+---------+----------------+
+| Field  | Type        | Null | Key | Default | Extra          |
++--------+-------------+------+-----+---------+----------------+
+| nomor  | int(11)     | NO   | PRI | NULL    | auto_increment |
+| nama   | varchar(30) | NO   | UNI | NULL    |                |
+| kota   | varchar(50) | NO   |     | NULL    |                |
+| kontak | varchar(15) | NO   |     | NULL    |                |
++--------+-------------+------+-----+---------+----------------+
+4 rows in set (0.026 sec)
+
+//5 data pembelian
+select * from pembelian;
++-------+------------+-----------+--------+---------+-----------+
+| nomor | tanggal    | produk_id | jumlah | harga   | vendor_id |
++-------+------------+-----------+--------+---------+-----------+
+|     1 | 2023-10-07 |         5 |     10 |  600000 |         1 |
+|     2 | 2023-10-08 |         6 |     11 |  700000 |         2 |
+|     3 | 2023-10-09 |         7 |     12 |  800000 |         3 |
+|     4 | 2023-10-10 |         8 |     13 |  900000 |         4 |
+|     5 | 2023-10-11 |         9 |     14 | 1000000 |         5 |
++-------+------------+-----------+--------+---------+-----------+
+
+//5 data vendor
+MariaDB [tokosib5]> select * from vendor;
++-------+----------------------+-----------+----------------+
+| nomor | nama                 | kota      | kontak         |
++-------+----------------------+-----------+----------------+
+|     1 | Merry Wulandari. S   | mamuju    | +6285240591592 |
+|     2 | Ahmad Afrisal        | Polewali  | +6285241591593 |
+|     3 | Andi Alviansyah. S   | Majene    | +6285242591594 |
+|     4 | Izzar Rayyan. R      | Monokwari | +6285243591595 |
+|     5 | Putri Mayang Sari. S | mamuju    | +6285244591596 |
++-------+----------------------+-----------+----------------+
