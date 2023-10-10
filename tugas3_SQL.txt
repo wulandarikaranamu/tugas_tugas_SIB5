@@ -85,8 +85,7 @@ SELECT * FROM produk WHERE kode LIKE 'K%' OR kode LIKE 'M%';
 SELECT * FROM produk WHERE kode NOT LIKE 'M%';
 
 3.	Tampilkan produk-produk televisi
-SELECT * FROM produk WHERE jenis_produk_id = '1';
-SELECT * FROM produk WHERE kode IN ('TV01', 'TV02');
+SELECT * FROM produk WHERE kode LIKE '%TV%';
 
 4.	Tampilkan pelanggan mengandung huruf 'SA'
 SELECT * FROM pelanggan WHERE nama LIKE '%SA%';
