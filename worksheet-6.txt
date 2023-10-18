@@ -1,0 +1,112 @@
+Nama : Merry Wulandari. S
+Group : FDW 2
+
+Soal 6.1
+----------------------------------------------------------------
+3.	Buat fungsi kategori_harga dengan parameter yang menerima inputan argument tipe data double dan mengembalikan tipe data string kategori harga berdasarkan: 
+●	0 – 500rb : murah
+●	500rb – 3 juta : sedang
+●	3jt – 10 juta : mahal 
+●	> 10 juta : sangat mahal
+
+penyelesaian :
+
+DELIMITER $$
+
+CREATE FUNCTION kategori_harga(harga DOUBLE) RETURNS VARCHAR(20)
+BEGIN
+    DECLARE kategori VARCHAR(20);
+    
+    IF harga >= 0 AND harga <= 500000 THEN
+        SET kategori = 'murah';
+    ELSEIF harga > 500000 AND harga <= 3000000 THEN
+        SET kategori = 'sedang';
+    ELSEIF harga > 3000000 AND harga <= 10000000 THEN
+        SET kategori = 'mahal';
+    ELSE
+        SET kategori = 'sangat mahal';
+    END IF;
+    
+    RETURN kategori;
+END $$
+
+DELIMITER ;
+
+panggil :
+
+SELECT kategori_harga(7000000) AS kategori;
+
+-----------------------------------------------------------------
+Soal 6.2
+
+2.	Buatlah Stored Procedure dengan nama kurangi_stok untuk mengurangi stok produk. 
+Stok berkurang sesuai dengan jumlah pesanan produk.
+
+Penyelesaian : 
+
+DELIMITER $$
+
+CREATE PROCEDURE kurangi_stok(IN produk_id INT, IN jumlah_pesanan INT)
+BEGIN
+    DECLARE stok_produk INT;
+    
+    -- Ambil stok produk dari tabel produk
+    SELECT stok INTO stok_produk
+    FROM produk
+    WHERE id = produk_id;
+    
+    -- Kurangi stok sesuai dengan jumlah pesanan
+    SET stok_produk = stok_produk - jumlah_pesanan;
+    
+    -- Update stok produk di tabel produk
+    UPDATE produk
+    SET stok = stok_produk
+    WHERE id = produk_id;
+END $$
+
+DELIMITER ;
+
+Panggil : CALL kurangi_stok(11, 3); 
+jadi apabila di produk id=1 memiliki stok=10 maka akan dikurangi secara otomatis
+11 - 3 = 7 sisa stok pada produk 
+
+------------------------------------------------------------------
+Soal 6.2
+
+3.	Buatlah Trigger dengan nama trig_kurangi_stok yang akan mengurangi stok produk 
+jika terjadi transaksi pesanan oleh pelanggan (memanggil stored procedure kurangi_stok soal no 1).
+Trigger ini aktif setelah trigger after_pesanan_items_insert (trigger pada contoh 3).
+
+penyelsaian :
+//Membuat trigger after_pesanan_items_insert
+pada trigger inilah yang harus ada terlebih dahulu sebelum trig_kurangi_stok
+
+DELIMITER //
+
+CREATE TRIGGER after_pesanan_items_insert AFTER INSERT ON pesanan_items
+FOR EACH ROW
+BEGIN
+    -- Isi trigger (misalnya, melakukan sesuatu setelah insert)
+END //
+
+DELIMITER ;
+---------------------------------------------------------------------
+
+//Membuat trigger trig_kurangi_stok
+
+DELIMITER $$
+
+CREATE TRIGGER trig_kurangi_stok AFTER INSERT ON pesanan_items
+FOR EACH ROW
+BEGIN
+    CALL kurangi_stok(NEW.produk_id, NEW.pesanan_id);
+END $$
+
+DELIMITER ;
+----------------------------------------------------------------------
+Untuk melakukan pengaktifan trig_kurangi_stok setelah after_pesanan_items_insert adalah
+
+Misalnya, jika kita ingin mengaktifkan trigger ini, 
+kita cukup melakukan operasi INSERT pada tabel pesanan_items 
+
+//INSERT INTO pesanan_items (produk_id, pesanan_id) VALUES (1, 5);
